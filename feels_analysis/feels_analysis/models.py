@@ -5,7 +5,7 @@ class Track(TimeStampedModel):
     track_name = models.CharField(max_length=50)
     artist = models.CharField(max_length=50)
 
-    track_id = models.IntegerField(default=0)
+    track_id = models.IntegerField(unique=True)
     lyrics = models.TextField(blank=True)
 
     def __str__(self):
