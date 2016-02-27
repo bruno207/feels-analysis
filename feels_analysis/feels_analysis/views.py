@@ -50,18 +50,18 @@ def index(request):
         r = requests.get('http://api.musixmatch.com/ws/1.1/', params=payload)
         return r.json()["message"]["body"]["lyrics"]["lyrics_body"]
 
-    test = getTrackLyrics(getTrackId(topTracks[0][0], topTracks[0][1]))
+    for i in range(len(topTracks)):
+        curr_track_name = topTracks[i][1]
+        curr_artist = topTracks[i][0]
+        obj, created = Track.objects.get_or_create(track_name=curr_track_name, artist=curr_artist)
+        if created:
+            curr_track_id = getTrackId(curr_artist, curr_track_name)
+            curr_lyrics = getTrackLyrics(curr_track_id)
+            obj.track_id = curr_track_id
+            obj.lyrics = curr_lyrics
+            obj.save()
 
+    test = 'no errors'
     return render(request, 'index.html', {
         'data': test,
     },)
-
-'''
-    for i in range(len(topTracks)):
-        # curr_track = getLyrics(topTracks[0][0],topTracks[0][1])
-        curr_track_id = test["message"]["body"]["track_list"][0]["track"]["track_id"]
-        curr_track_name = topTracks[i][1]
-        curr_artist = topTracks[i][0]
-        curr_lyrics =
-        obj, created = Track.objects.get_or_create(track_id=curr_track_id, track_name=curr_track_name, artist=curr_artist, lyrics=curr_lyrics)
-'''
