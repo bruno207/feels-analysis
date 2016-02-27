@@ -1,25 +1,17 @@
+# Python 3 imports
 from __future__ import absolute_import
-
+# import from db
 from .models import *
-
+# django imports
 from django.conf import settings
-from django.http import HttpResponseServerError  # Http404
-from django.shortcuts import render, get_object_or_404, redirect
-
-#from nltk.sentiment.vader import SentimentIntensityAnalyzer
-#from nltk import tokenize
-#from nltk.classify import NaiveBayesClassifier
-#from nltk.corpus import subjectivity
-#from nltk.sentiment import *
-#from nltk.sentiment.util import *
+from django.shortcuts import render
+# external app imports
 from vaderSentiment.vaderSentiment import sentiment as vaderSentiment
-
-
-import requests, json
+import requests
 
 def index(request):
     # Last.fm Track API requests
-    num_tracks = 95
+    num_tracks = 99
     payload = {
         "api_key": 'REDACTED',
         "method": 'geo.getTopTracks',
@@ -60,6 +52,7 @@ def index(request):
         return r.json()["message"]["body"]["lyrics"]["lyrics_body"]
 
     def determineSentiment(track_lyrics):
+        # VADER Sentiment calculatrion and database storage
         try:
             track_lyrics = track_lyrics.encode('utf-8')
             sentiment = vaderSentiment(track_lyrics)
