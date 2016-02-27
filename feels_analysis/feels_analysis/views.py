@@ -68,6 +68,9 @@ def index(request):
     for i in range(len(topTracks)):
         curr_track_name = topTracks[i][1]
         curr_artist = topTracks[i][0]
+        # Prevent Macklemore from being input multiple time (TODO investigate)
+        if Track.objects.get(track_id='84285276'):
+            continue
         # Prevent unnecessary api calls to musixmatch
         obj, created = Track.objects.get_or_create(track_name=curr_track_name, artist=curr_artist)
         if created:
