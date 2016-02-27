@@ -1,0 +1,46 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+
+    <title>
+      {% block title %}
+      {% endblock %}
+    </title>
+
+    <meta charset="UTF-8">
+    <meta name="keywords" content="George Mason, URL shortener, URL">
+    <meta name="description" content="University branded URL shortener.">
+    <meta name="author" content="Jean Michel Rouly">
+    <meta name="robots" content="all">
+
+    <link href="http://fonts.googleapis.com/css?family=Carrois+Gothic" rel="stylesheet" type="text/css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://go.gmu.edu/static/css/normalize.css" />
+    <link rel="stylesheet" href="https://go.gmu.edu/static/css/bootswatch.min.css" />
+    <link rel="icon" type="image/jpg" href="https://go.gmu.edu/static/img/favicon.ico" />
+
+    <script src="https://go.gmu.edu/static/js/jquery.min.js"></script>
+    <script src="https://go.gmu.edu/static/js/bootstrap.min.js"></script>
+
+  </head>
+
+  <body>
+
+
+    <div class="container">
+
+      {% block content %}
+
+      {% endblock %}
+
+    </div>
+
+    {% include 'layouts/footer.html' %}
+
+
+  </body>
+
+</html>
