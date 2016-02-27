@@ -26,7 +26,7 @@ def index(request):
 
 
     def getTrackId(artist, track):
-        # Musixmatch lyrics API requests
+        # Musixmatch Track ID API requests
         payload = {
             "apikey": 'REDACTED',
             "method": 'track.search',
@@ -39,13 +39,22 @@ def index(request):
         r = requests.get('http://api.musixmatch.com/ws/1.1/', params=payload)
         return r.json()["message"]["body"]["track_list"][0]["track"]["track_id"]
 
-    # test = getLyrics(topTracks[0][0], topTracks[0][1])
+    def getTrackLyrics(track_id):
+        # Musixmatch Lyrics API requests
+        payload = {
+            "apikey": 'REDACTED',
+            "method": 'track.lyrics.get',
+            "format": 'json',
+            "track_id": '%s' %track_id,
+        }
+        r = requests.get('http://api.musixmatch.com/ws/1.1/', params=payload)
+        return r.json()["message"]["body"]["lyrics"]["lyrics_body"]
 
+    test = getTrackLyrics(getTrackId(topTracks[0][0], topTracks[0][1]))
 
     return render(request, 'index.html', {
-        'data': ,
+        'data': test,
     },)
-
 
 '''
     for i in range(len(topTracks)):
