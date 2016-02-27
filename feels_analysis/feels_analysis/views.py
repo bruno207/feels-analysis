@@ -6,6 +6,11 @@ from django.conf import settings
 from django.http import HttpResponseServerError  # Http404
 from django.shortcuts import render, get_object_or_404, redirect
 
+from nltk.classify import NaiveBayesClassifier
+from nltk.corpus import subjectivity
+from nltk.sentiment import SentimentAnalyzer
+from nltk.sentiment.util import *
+
 import requests, json
 
 def index(request):
@@ -50,9 +55,11 @@ def index(request):
         r = requests.get('http://api.musixmatch.com/ws/1.1/', params=payload)
         return r.json()["message"]["body"]["lyrics"]["lyrics_body"]
 
+    # API data processing into the databse logic:
     for i in range(len(topTracks)):
         curr_track_name = topTracks[i][1]
         curr_artist = topTracks[i][0]
+        # Prevent unnecessary api calls to musixmatch
         obj, created = Track.objects.get_or_create(track_name=curr_track_name, artist=curr_artist)
         if created:
             curr_track_id = getTrackId(curr_artist, curr_track_name)
@@ -61,6 +68,7 @@ def index(request):
             obj.lyrics = curr_lyrics
             obj.save()
 
+    # placeholder for pretty page
     test = 'no errors'
     return render(request, 'index.html', {
         'data': test,
