@@ -1,4 +1,4 @@
-from __future__ import absolute_import, print_function
+from __future__ import absolute_import
 
 from .models import *
 
@@ -9,8 +9,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 import requests, json
 
 def index(request):
-    num_tracks = 1
-    # topTracks = {}
+    # Last.fm Track API requests
+    num_tracks = 10
     payload = {
         "api_key": 'REDACTED',
         "method": 'geo.getTopTracks',
@@ -24,6 +24,35 @@ def index(request):
                   r.json()["tracks"]["track"][num]["name"])
                  for num in range(num_tracks)]
 
+
+    def getTrackId(artist, track):
+        # Musixmatch lyrics API requests
+        payload = {
+            "apikey": 'REDACTED',
+            "method": 'track.search',
+            "q_track": '%s' %track,
+            "q_artist": "'{0}'".format(artist),
+            "f_has_lyrics": '1',
+            "format": 'json',
+            "page_size": '1',
+        }
+        r = requests.get('http://api.musixmatch.com/ws/1.1/', params=payload)
+        return r.json()["message"]["body"]["track_list"][0]["track"]["track_id"]
+
+    # test = getLyrics(topTracks[0][0], topTracks[0][1])
+
+
     return render(request, 'index.html', {
-        'data': r.json(),
+        'data': ,
     },)
+
+
+'''
+    for i in range(len(topTracks)):
+        # curr_track = getLyrics(topTracks[0][0],topTracks[0][1])
+        curr_track_id = test["message"]["body"]["track_list"][0]["track"]["track_id"]
+        curr_track_name = topTracks[i][1]
+        curr_artist = topTracks[i][0]
+        curr_lyrics =
+        obj, created = Track.objects.get_or_create(track_id=curr_track_id, track_name=curr_track_name, artist=curr_artist, lyrics=curr_lyrics)
+'''
