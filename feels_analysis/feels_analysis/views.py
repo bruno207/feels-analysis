@@ -9,13 +9,21 @@ from django.shortcuts import render, get_object_or_404, redirect
 import requests, json
 
 def index(request):
+    num_tracks = 1
+    # topTracks = {}
     payload = {
-        "api_key": 'REDACETED',
-        "method": 'chart.getTopTracks',
-        "limit": '1',
-        "format": 'json' }
+        "api_key": 'REDACTED',
+        "method": 'geo.getTopTracks',
+        "country": 'United States',
+        "limit": '%s' %num_tracks,
+        "format": 'json',
+    }
     r = requests.get('http://ws.audioscrobbler.com/2.0/', params=payload)
+
+    topTracks = [(r.json()["tracks"]["track"][num]["artist"]["name"],
+                  r.json()["tracks"]["track"][num]["name"])
+                 for num in range(num_tracks)]
+
     return render(request, 'index.html', {
-        'data0': r.json()["tracks"]["track"][0]["name"],
-        'data': r.json()["tracks"]["track"][0]["artist"]["name"]
+        'data': r.json(),
     },)
