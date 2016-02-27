@@ -6,10 +6,9 @@ from django.conf import settings
 from django.http import HttpResponseServerError  # Http404
 from django.shortcuts import render, get_object_or_404, redirect
 
-from nltk.classify import NaiveBayesClassifier
-from nltk.corpus import subjectivity
-from nltk.sentiment import SentimentAnalyzer
-from nltk.sentiment.util import *
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from nltk import tokenize
+
 
 import requests, json
 
@@ -66,6 +65,7 @@ def index(request):
             curr_lyrics = getTrackLyrics(curr_track_id)
             obj.track_id = curr_track_id
             obj.lyrics = curr_lyrics
+            obj.stripDisclaimer()
             obj.save()
 
     # placeholder for pretty page
@@ -73,3 +73,29 @@ def index(request):
     return render(request, 'index.html', {
         'data': test,
     },)
+
+
+'''
+    sentences = [
+    " tehninsfdo;nfesl;k"
+    ]
+    paragraph = """
+        jneifsoNser;angfkjsadnfkjl
+    """
+    tricky_sentences = [
+        "ojmgdflamgklfdmgaklm"
+    ]
+
+    lines_list = tokenize.sent_tokenize(paragraph)
+    sentences.extend(lines_list)
+    sentences.extend(tricky_sentences)
+    sentences.extend(tricky_sentences)
+
+    sid = SentimentIntensityAnalyzer()
+    for sentence in sentences:
+         print(sentence)
+         ss = sid.polarity_scores(sentence)
+         for k in sorted(ss):
+             print('{0}: {1}, '.format(k, ss[k]), end='')
+         print
+'''
