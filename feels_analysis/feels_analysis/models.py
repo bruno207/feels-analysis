@@ -8,6 +8,10 @@ class Track(TimeStampedModel):
     track_id = models.IntegerField(unique=True, null=True)
     lyrics = models.TextField(blank=True)
 
+    neg = models.FloatField(null=True)
+    neu = models.FloatField(null=True)
+    pos = models.FloatField(null=True)
+
     def stripDisclaimer(self):
         new_lyrics = self.lyrics.strip("... ******* This Lyrics is NOT for Commercial use *******")
         self.lyrics = new_lyrics
