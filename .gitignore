@@ -1,2 +1,3 @@
 feels_analysis/feels_analysis/settings/*
 **.pyc
+feels_analysis/feels_analysis/migrations/*
