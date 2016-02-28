@@ -7,15 +7,38 @@ Feels Analysis - A project by /bruno207
 
 {% block content %}
 <br />
-<h2>Feels Analyst:</h2>
-  <h4>Determining Moods based off of popular song lyrics</h4>
+<h2>
+  <span class="fa-stack fa-lg">
+    <i class="fa fa-circle fa-stack-2x"></i>
+    <i class="fa fa-music fa-stack-1x fa-inverse"></i>
+  </span>
+   Feels Analyst:</h2>
+  <h4>Determining a countries moods based off of popular song lyrics</h4>
 <legend></legend>
+
+<br />
+<h4>Overall the United States is: Feelin "Pretty Neutral" <i class="fa fa-lg fa-meh-o"></i></h4>
+<br />
 
 <h4>Top Tracks in the United States:</h4>
 
-<pre>
-{% for track in data %}
-      {{ track.track_name }}
-{% endfor %}
-</pre>
+<table class="table table-striped">
+  <tr>
+    <th scope="row"></th>
+    <td><strong>Track title</strong></td>
+    <td><strong>Artist</strong></td>
+    <td><strong>Sentiment Analysis</strong></td>
+  </tr>
+  {% for track in data %}
+  <tr>
+    <th scope="row">{{ forloop.counter }}</th>
+    <td>{{ track.track_name }}</td>
+    <td>{{ track.artist }}</td>
+    <td>{{ track.neu }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+
+
 {% endblock %}
