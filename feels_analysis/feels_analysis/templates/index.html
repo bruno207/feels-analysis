@@ -6,8 +6,16 @@ Feels Analysis - A project by /bruno207
 
 
 {% block content %}
-<pre>
-  {{ data }}
-</pre>
+<br />
+<h2>Feels Analyst:</h2>
+  <h4>Determining Moods based off of popular song lyrics</h4>
+<legend></legend>
 
+<h4>Top Tracks in the United States:</h4>
+
+<pre>
+{% for track in data %}
+      {{ track.track_name }}
+{% endfor %}
+</pre>
 {% endblock %}
