@@ -87,7 +87,30 @@ def index(request):
                 print curr_artist
                 continue
 
-    test = "There are no errors!"
+    test = Track.objects.all().order_by('?')[0:5]
+    test2 = Track.objects.all()
+    def calculateOverallMood():
+        pos = 0
+        neg = 0
+        neu = 0
+        for track in test2:
+            if track.mood()[0] == 'Positive':
+                pos += 1
+            elif track.mood()[0] == 'Negative':
+                neg += 1
+            else:
+                neu += 1
+        data = [pos, neu, neg]
+        indexlargest = data.index(max(data))
+        if indexlargest == 0:
+            mood = 'Negative'
+        elif indexlargest == 1:
+            mood = 'Neutral'
+        else:
+            mood = 'Positive'
+        return mood
+    nation = calculateOverallMood()
     return render(request, 'index.html', {
         'data': test,
+        'data2': nation,
     },)

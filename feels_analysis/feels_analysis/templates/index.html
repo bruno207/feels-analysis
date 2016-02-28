@@ -17,24 +17,32 @@ Feels Analysis - A project by /bruno207
 <legend></legend>
 
 <br />
-<h4>Overall the United States is: Feelin "Pretty Neutral" <i class="fa fa-lg fa-meh-o"></i></h4>
+
+<h4>Overall the United States is: Feelin "Pretty {{ data2 }}"
+  {% if data2 == "Neutral" %}
+    <i class="fa fa-lg fa-meh-o"></i></h4>
+  {% elif data2 == "Positive" %}
+    <i class="fa fa-lg fa-smile-o"></i></h4>
+  {% else %}
+    <i class="fa fa-lg fa-frown-o"></i></h4>
+  {% endif %}
 <br />
 
-<h4>Top Tracks in the United States:</h4>
+<h4>5 Random Top Tracks(from Top 100) in the United States:</h4>
 
 <table class="table table-striped">
   <tr>
     <th scope="row"></th>
     <td><strong>Track title</strong></td>
     <td><strong>Artist</strong></td>
-    <td><strong>Sentiment Analysis</strong></td>
+    <td><strong>Sentiment Analysis: (plus value)</strong></td>
   </tr>
   {% for track in data %}
   <tr>
     <th scope="row">{{ forloop.counter }}</th>
     <td>{{ track.track_name }}</td>
     <td>{{ track.artist }}</td>
-    <td>{{ track.neu }}</td>
+    <td>{{ track.mood.0 }}: {{ track.mood.1 }}</td>
   </tr>
   {% endfor %}
 </table>
